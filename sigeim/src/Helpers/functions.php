@@ -17,9 +17,9 @@ function asset($path) {
 }
 
 /**
- * Render a view within the layout
+ * Render a view within a layout
  */
-function view($view, $data = []) {
+function view($view, $data = [], $layout = 'layout') {
     extract($data);
     $viewPath = __DIR__ . '/../../templates/views/' . $view . '.php';
     
@@ -27,7 +27,13 @@ function view($view, $data = []) {
         ob_start();
         include $viewPath;
         $content = ob_get_clean();
-        include __DIR__ . '/../../templates/layout.php';
+        
+        $layoutPath = __DIR__ . '/../../templates/' . $layout . '.php';
+        if (file_exists($layoutPath)) {
+            include $layoutPath;
+        } else {
+            die("Layout $layout not found at $layoutPath");
+        }
     } else {
         die("View $view not found at $viewPath");
     }

@@ -27,8 +27,27 @@ $path = parse_url($path, PHP_URL_PATH);
 
 // Simple landing page for now - Only if not in CLI
 if (php_sapi_name() !== 'cli') {
+    // Basic Auth Check for Admin
+    $isLoggedIn = isset($_COOKIE['remember_me']) && $_COOKIE['remember_me'] === 'true';
+
     if ($path === '/' || $path === '') {
+        if ($isLoggedIn) {
+            header('Location: /admin');
+            exit;
+        }
         view('home', ['title' => 'Inicio']);
+    } elseif ($path === 'login') {
+        if ($isLoggedIn) {
+            header('Location: /admin');
+            exit;
+        }
+        view('login', ['title' => 'Acceso']);
+    } elseif ($path === 'admin') {
+        if (!$isLoggedIn) {
+            header('Location: /login');
+            exit;
+        }
+        view('dashboard', ['title' => 'Panel de Control'], 'admin_layout');
     } else {
         // Simple fallback for other routes
         echo "Ruta: " . $path;
