@@ -59,7 +59,18 @@ class UploadController {
 
             // Guardar archivo físico
             $uploadDir = __DIR__ . '/../../storage/uploads/';
-            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+            
+            // Intentar crear el directorio si no existe
+            if (!is_dir($uploadDir)) {
+                if (!mkdir($uploadDir, 0777, true)) {
+                    throw new Exception("No se pudo crear el directorio de subidas. Verifique los permisos en el servidor.");
+                }
+            }
+
+            // Verificar si el directorio es escribible
+            if (!is_writable($uploadDir)) {
+                throw new Exception("El servidor no tiene permisos de escritura en la carpeta de subidas.");
+            }
             
             $safeFileName = time() . '_' . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
             $targetFile = $uploadDir . $safeFileName;
@@ -68,20 +79,22 @@ class UploadController {
                 throw new Exception("Error al mover el archivo al servidor.");
             }
 
+            $totalCopies = intval($_POST['total_copies'] ?? 1);
+
             // Crear registro del trabajo con status inicial 'pendiente'
             $jobId = $printJobModel->create(
                 $docName, 
                 '/storage/uploads/' . $safeFileName, 
                 $fileType, 
                 $deptId, 
-                PrintStatus::PENDING
+                PrintStatus::PENDING,
+                $totalCopies
             );
             
             if (!$jobId) throw new Exception("Error al registrar el trabajo en la base de datos.");
 
             // 3. Guardar las copias/configuraciones
             $printCopyModel = new PrintCopy();
-            $totalCopies = intval($_POST['total_copies'] ?? 1);
             
             if (isset($_POST['configs']) && is_array($_POST['configs'])) {
                 foreach ($_POST['configs'] as $config) {

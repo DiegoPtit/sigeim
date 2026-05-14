@@ -3,7 +3,7 @@
         <div class="card shadow-sm border-0 p-5">
             <div class="mb-4">
                 <lottie-player 
-                    src="<?= asset('icons/' . ($type ?? 'success') . '.json') ?>" 
+                    id="lottie-msg-icon"
                     background="transparent" 
                     speed="1" 
                     style="width: 150px; height: 150px; margin: 0 auto;" 
@@ -28,3 +28,17 @@
 </div>
 
 <script src="<?= asset('js/lottie-player.js') ?>"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const player = document.getElementById('lottie-msg-icon');
+        const iconUrl = '<?= asset("icons/" . ($type ?? "success") . ".json") ?>';
+        
+        // Cargamos el JSON manualmente para evitar el bug de responseType en lottie-player.js
+        fetch(iconUrl)
+            .then(response => response.json())
+            .then(data => {
+                player.load(data);
+            })
+            .catch(err => console.error('Error loading Lottie animation:', err));
+    });
+</script>
