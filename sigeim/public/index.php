@@ -52,6 +52,7 @@ if (php_sapi_name() !== 'cli') {
                 'type' => $result['success'] ? 'success' : 'error',
                 'message_title' => $result['message_title'],
                 'message_body' => $result['message_body'],
+                'job_id' => $result['job_id'] ?? null,
                 'primary_link' => $result['success'] ? ['url' => '/cola', 'text' => 'Ver Cola de Impresión'] : null
             ]);
             exit;

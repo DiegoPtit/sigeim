@@ -379,9 +379,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="col-md-6">
                                         <label class="small fw-bold mb-1" style="font-size: 0.65rem;">ESCALA</label>
                                         <select name="configs[${index}][escala]" class="form-select form-select-sm bg-body border-0 shadow-none">
-                                            <option value="original">Original</option>
-                                            <option value="reducida">Reducida</option>
-                                            <option value="agrandada">Agrandada</option>
+                                            <option value="original (100%)">Original (100%)</option>
+                                            <option value="reducido (-50%)">Reducido (-50%)</option>
+                                            <option value="agrandado (+50%)">Agrandado (+50%)</option>
                                         </select>
                                     </div>
                                 </div>

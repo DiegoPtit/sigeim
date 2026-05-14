@@ -11,6 +11,9 @@
                 </lottie-player>
             </div>
             <h1 class="h3 fw-bold mb-3"><?= $message_title ?? 'Operación Exitosa' ?></h1>
+            <?php if (isset($job_id)): ?>
+                <p class="fw-bold text-primary mb-3">#<?= $job_id ?></p>
+            <?php endif; ?>
             <p class="text-muted mb-5"><?= $message_body ?? 'La solicitud se ha procesado correctamente.' ?></p>
             
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">

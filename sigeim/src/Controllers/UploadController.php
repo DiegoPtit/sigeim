@@ -121,6 +121,7 @@ class UploadController {
             // 4. Retornar éxito
             return [
                 'success' => true,
+                'job_id' => $jobId,
                 'message_title' => '¡Documento Encolado!',
                 'message_body' => 'Tu solicitud de impresión ha sido registrada exitosamente. El estado actual es: <b>' . PrintStatus::label(PrintStatus::PENDING) . '</b>.'
             ];

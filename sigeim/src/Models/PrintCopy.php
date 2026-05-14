@@ -12,7 +12,7 @@ class PrintCopy extends BaseModel {
      * @property varchar(50) page_type
      * @property enum('blanco_negro','color') color_mode
      * @property enum('vertical','horizontal') orientation
-     * @property enum('original','reducida','agrandada') scale
+     * @property enum('original (100%)','reducido (-50%)','agrandado (+50%)') scale
      * @property tinyint(1) is_double
      * @property varchar(50) specific_pages
      * @property text notes
