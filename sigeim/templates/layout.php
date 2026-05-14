@@ -66,6 +66,9 @@
         .navbar {
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1030;
         }
         [data-bs-theme="dark"] .navbar {
             background-color: #050505 !important;

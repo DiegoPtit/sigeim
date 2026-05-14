@@ -42,6 +42,29 @@ if (php_sapi_name() !== 'cli') {
             exit;
         }
         view('login', ['title' => 'Acceso']);
+    } elseif ($path === 'subida') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller = new \App\Controllers\UploadController();
+            $result = $controller->process();
+            
+            view('info-message', [
+                'title' => $result['success'] ? 'Éxito' : 'Error',
+                'type' => $result['success'] ? 'success' : 'error',
+                'message_title' => $result['message_title'],
+                'message_body' => $result['message_body'],
+                'primary_link' => $result['success'] ? ['url' => '/cola', 'text' => 'Ver Cola de Impresión'] : null
+            ]);
+            exit;
+        }
+
+        $deptModel = new \App\Models\Department();
+        $pageTypeModel = new \App\Models\PageType();
+        
+        view('subida', [
+            'title' => 'Subir Documento',
+            'departments' => $deptModel->all(),
+            'pageTypes' => $pageTypeModel->all()
+        ]);
     } elseif ($path === 'admin') {
         if (!$isLoggedIn) {
             header('Location: /login');

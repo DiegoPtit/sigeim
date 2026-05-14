@@ -93,6 +93,9 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1020;
         }
 
         [data-bs-theme="dark"] #main-content header {
