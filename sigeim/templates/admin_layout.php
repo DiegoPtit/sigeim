@@ -181,7 +181,7 @@
         #toast-container {
             position: fixed;
             top: 1rem;
-            left: 1rem;
+            right: 1rem;
             z-index: 1060;
         }
         .custom-toast {
@@ -196,7 +196,7 @@
             animation: slideIn 0.3s ease-out forwards;
         }
         @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
+            from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
         .toast-success { background-color: var(--toast-success); border-color: var(--toast-success-border); color: #0f5132; }
