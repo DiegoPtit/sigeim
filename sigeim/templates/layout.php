@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'SIGEIM' ?> - Gestión de Impresiones</title>
+    <title>SIGEIM</title>
     
     <!-- Inter Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,24 +41,18 @@
     <nav class="navbar navbar-expand-lg border-bottom bg-body">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <i data-lucide="printer" class="me-2 text-primary"></i>
+                <img src="<?= asset('img/logo.svg') ?>" alt="Logo" height="32" class="me-2">
                 SIGEIM
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/"><i data-lucide="home" class="me-1 icon-sm"></i> Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cola"><i data-lucide="list" class="me-1 icon-sm"></i> Cola</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin"><i data-lucide="layout-dashboard" class="me-1 icon-sm"></i> Admin</a>
-                    </li>
-                </ul>
+                <div class="ms-auto">
+                    <a href="/login" class="btn btn-primary shadow-sm">
+                        <i data-lucide="log-in" class="me-2 icon-sm"></i>Acceso
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
