@@ -6,11 +6,14 @@
                     id="lottie-msg-icon"
                     background="transparent" 
                     speed="1" 
+                    class="<?= ($type ?? 'success') === 'error' ? 'lottie-error-mask' : '' ?>"
                     style="width: 150px; height: 150px; margin: 0 auto;" 
                     autoplay>
                 </lottie-player>
             </div>
-            <h1 class="h3 fw-bold mb-3"><?= $message_title ?? 'Operación Exitosa' ?></h1>
+            <h1 class="h3 fw-bold mb-3 <?= ($type ?? 'success') === 'error' ? 'text-danger' : '' ?>">
+                <?= $message_title ?? 'Operación Exitosa' ?>
+            </h1>
             <?php if (isset($job_id)): ?>
                 <p class="fw-bold text-primary mb-3">#<?= $job_id ?></p>
             <?php endif; ?>
@@ -18,7 +21,7 @@
             
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                 <?php if (isset($primary_link)): ?>
-                    <a href="<?= $primary_link['url'] ?>" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
+                    <a href="<?= $primary_link['url'] ?>" class="btn <?= ($type ?? 'success') === 'error' ? 'btn-danger' : 'btn-primary' ?> px-4 py-2 fw-bold shadow-sm">
                         <?= $primary_link['text'] ?>
                     </a>
                 <?php endif; ?>
@@ -29,6 +32,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .lottie-error-mask {
+        /* Applies a red filter to the Lottie animation */
+        filter: invert(24%) sepia(92%) saturate(7180%) hue-rotate(354deg) brightness(91%) contrast(119%);
+    }
+</style>
 
 <script src="<?= asset('js/lottie-player.js') ?>"></script>
 <script>

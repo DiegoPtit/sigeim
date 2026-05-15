@@ -27,9 +27,16 @@ COPY sigeim/ /var/www/html/
 
 # Adjust permissions for storage
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/public/assets
+RUN chmod -R 775 /var/www/html/storage /var/www/html/public/assets
 
 # Use the default production configuration
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Update Apache configuration to point to public/
 COPY sigeim/docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+
+# Copy entrypoint script
+COPY sigeim/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]

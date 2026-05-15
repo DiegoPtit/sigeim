@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php
 $formContent = ob_get_clean();
-$title = "SIGEBIM";
+$title = "SIGEIM";
 $subtitle = "Asistente de Subida de Documentos";
 $width = "65dvw";
 $formMaxWidth = "100%"; 
