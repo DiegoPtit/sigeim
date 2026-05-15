@@ -24,4 +24,14 @@ class PrintJob extends BaseModel {
         }
         return false;
     }
+
+    public function getAllWithDepartment() {
+        $stmt = $this->db->query("
+            SELECT pj.*, d.name as department_name 
+            FROM {$this->table} pj
+            JOIN departments d ON pj.department_id = d.id
+            ORDER BY pj.created_at DESC
+        ");
+        return $stmt->fetchAll();
+    }
 }

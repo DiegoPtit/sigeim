@@ -226,10 +226,11 @@
         </div>
         <div class="py-3 flex-grow-1">
             <nav class="nav flex-column">
-                <a class="nav-link active" href="/admin">
+                <?php $current_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
+                <a class="nav-link <?= $current_path === '/admin' ? 'active' : '' ?>" href="/admin">
                     <i data-lucide="home" class="icon-sm"></i>Inicio
                 </a>
-                <a class="nav-link" href="#">
+                <a class="nav-link <?= $current_path === '/cola' ? 'active' : '' ?>" href="/cola">
                     <i data-lucide="printer" class="icon-sm"></i>Cola de Impresión
                 </a>
                 <a class="nav-link" href="#">

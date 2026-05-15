@@ -66,6 +66,11 @@ if (php_sapi_name() !== 'cli') {
             'departments' => $deptModel->all(),
             'pageTypes' => $pageTypeModel->all()
         ]);
+    } elseif ($path === 'cola') {
+        $controller = new \App\Controllers\PrintJobController();
+        $data = $controller->queue();
+        $layout = $data['isLoggedIn'] ? 'admin_layout' : 'layout';
+        view('cola', array_merge(['title' => 'Cola de Impresión'], $data), $layout);
     } elseif ($path === 'admin') {
         if (!$isLoggedIn) {
             header('Location: /login');

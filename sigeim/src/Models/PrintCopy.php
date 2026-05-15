@@ -25,4 +25,10 @@ class PrintCopy extends BaseModel {
         }
         return false;
     }
+
+    public function getByJobId($job_id) {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE print_job_id = ?");
+        $stmt->execute([$job_id]);
+        return $stmt->fetchAll();
+    }
 }
