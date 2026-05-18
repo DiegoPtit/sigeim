@@ -34,4 +34,9 @@ class PrintJob extends BaseModel {
         ");
         return $stmt->fetchAll();
     }
+
+    public function updateStatus($id, $status) {
+        $stmt = $this->db->prepare("UPDATE {$this->table} SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
+        return $stmt->execute([$status, $id]);
+    }
 }

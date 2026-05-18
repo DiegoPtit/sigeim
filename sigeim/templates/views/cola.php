@@ -1,16 +1,16 @@
 <div class="card shadow-sm border-0">
-    <div class="card-header bg-body py-3 border-bottom d-flex justify-content-between align-items-center">
+    <div class="card-header bg-primary p-4 text-white border-bottom-0 d-flex justify-content-between align-items-center">
         <div>
             <h5 class="mb-0 fw-bold">Cola de Impresión</h5>
-            <p class="text-muted small mb-0">Estado actual de los trabajos de impresión en el sistema</p>
+            <p class="mb-0 small opacity-75">Estado actual de los trabajos de impresión en el sistema</p>
         </div>
-        <div class="badge bg-primary rounded-pill px-3 py-2">
+        <div class="badge bg-white text-primary rounded-pill px-3 py-2">
             <?= count($jobs) ?> Trabajos
         </div>
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
+            <thead class="bg-body-tertiary">
                 <tr>
                     <th class="ps-4">Nro</th>
                     <th>Documento</th>
@@ -65,9 +65,19 @@
                     <?php if ($isLoggedIn): ?>
                     <td class="text-uppercase small fw-bold text-muted"><?= htmlspecialchars($job['file_type']) ?></td>
                     <td class="pe-4">
-                        <a href="<?= htmlspecialchars($job['file_path']) ?>" class="btn btn-sm btn-light border shadow-sm" download title="Descargar archivo">
-                            <i data-lucide="download" class="icon-sm"></i>
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="<?= htmlspecialchars($job['file_path']) ?>" class="btn btn-sm btn-light border shadow-sm" download title="Descargar archivo">
+                                <i data-lucide="download" class="icon-sm"></i>
+                            </a>
+                            <?php if ($job['status'] !== \App\Helpers\PrintStatus::COMPLETED): ?>
+                            <button class="btn btn-sm btn-success border shadow-sm btn-complete" 
+                                    data-id="<?= $job['id'] ?>" 
+                                    title="Marcar como completado"
+                                    onclick="event.stopPropagation(); updateJobStatus(<?= $job['id'] ?>, 'completado')">
+                                <i data-lucide="check" class="icon-sm"></i>
+                            </button>
+                            <?php endif; ?>
+                        </div>
                     </td>
                     <?php endif; ?>
                 </tr>
@@ -82,7 +92,7 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered align-middle bg-body mb-0 shadow-sm">
-                                    <thead class="table-light small">
+                                    <thead class="bg-body-tertiary small">
                                         <tr>
                                             <th class="text-center">Cant.</th>
                                             <th>Papel</th>
@@ -148,6 +158,28 @@
     .collapse.show {
         display: table-row !important;
     }
+
+    /* Refinamientos para modo oscuro */
+    [data-bs-theme="dark"] .table {
+        --bs-table-bg: #0a0a0a;
+        --bs-table-border-color: #1a1a1a;
+    }
+    
+    [data-bs-theme="dark"] .bg-body-tertiary {
+        background-color: #141414 !important;
+    }
+
+    [data-bs-theme="dark"] .table-hover tbody tr:hover td {
+        background-color: #121212;
+    }
+
+    [data-bs-theme="dark"] .bg-tertiary {
+        background-color: #050505 !important;
+    }
+
+    [data-bs-theme="dark"] .badge {
+        color: #fff !important;
+    }
 </style>
 
 <script>
@@ -155,4 +187,31 @@
     document.addEventListener('DOMContentLoaded', function() {
         lucide.createIcons();
     });
+
+    function updateJobStatus(id, status) {
+        if (!confirm('¿Estás seguro de que deseas marcar este trabajo como ' + status + '?')) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('status', status);
+
+        fetch('/cola/actualizar-estado', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error al actualizar el estado: ' + (data.message || 'Error desconocido'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error de red al intentar actualizar el estado');
+        });
+    }
 </script>

@@ -70,6 +70,9 @@ if (php_sapi_name() !== 'cli') {
         $data = $controller->queue();
         $layout = $data['isLoggedIn'] ? 'admin_layout' : 'layout';
         view('cola', array_merge(['title' => 'Cola de Impresión'], $data), $layout);
+    } elseif ($path === 'cola/actualizar-estado') {
+        $controller = new \App\Controllers\PrintJobController();
+        $controller->updateStatus();
     } elseif ($path === 'admin') {
         if (!$isLoggedIn) {
             header('Location: /login');
