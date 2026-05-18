@@ -21,9 +21,8 @@ require_once __DIR__ . '/../src/Helpers/functions.php';
 
 // Simple Router (Conceptual)
 $request_uri = $_SERVER['REQUEST_URI'] ?? '/';
-$base_path = '/';
-$path = str_replace($base_path, '', $request_uri);
-$path = parse_url($path, PHP_URL_PATH);
+$path = parse_url($request_uri, PHP_URL_PATH);
+$path = ltrim($path, '/');
 
 // Simple landing page for now - Only if not in CLI
 if (php_sapi_name() !== 'cli') {
@@ -77,6 +76,22 @@ if (php_sapi_name() !== 'cli') {
             exit;
         }
         view('dashboard', ['title' => 'Panel de Control'], 'admin_layout');
+    } elseif (strpos($path, 'storage/uploads/') === 0) {
+        if (!$isLoggedIn) {
+            header('Location: /login');
+            exit;
+        }
+        $filePath = __DIR__ . '/../' . $path;
+        if (file_exists($filePath)) {
+            $mimeType = mime_content_type($filePath);
+            header("Content-Type: $mimeType");
+            header("Content-Length: " . filesize($filePath));
+            header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+            readfile($filePath);
+            exit;
+        }
+        http_response_code(404);
+        echo "Archivo no encontrado.";
     } else {
         // Simple fallback for other routes
         echo "Ruta: " . $path;
